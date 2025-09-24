@@ -39,7 +39,7 @@
 2. Use code from src/cursor.php
 3. Activate snippet → Ready! 🎉
 
-📖 Complete Installation Guide →
+📖 [Complete Installation Guide →](INSTALLATION.md)
 
 ### 📊 Browser Compatibility
 
@@ -65,7 +65,7 @@ containerX += (mouseX - containerX) * 0.3;
 css.cursor-dot { width: 6px; height: 6px; } /* Larger dot */
 .cursor-circle { width: 16px; height: 16px; } /* Larger circle */
 
-🎛️ Advanced Customization Guide →
+🎛️ [Advanced Customization Guide →](docs/customization.md)
 
 ### 📁 Repository Structure
 src/           # Source files for different implementations
@@ -74,7 +74,7 @@ docs/          # Detailed documentation
 screenshots/   # Visual previews and demos
 
 ###  🤝 Contributing
-We welcome contributions! Please see our Contributing Guide for details.
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
 1. Fork the repository
 2. Create a feature branch (git checkout -b feature/amazing-feature)
@@ -84,17 +84,22 @@ We welcome contributions! Please see our Contributing Guide for details.
 
 
 ### 📝 Changelog
-See CHANGELOG.md for version history and updates.
+See [CHANGELOG.md](CHANGELOG.md) for version history and updates.
 🐛 Issues & Support
-🐛 Bug Reports: Create an Issue
-💡 Feature Requests: Request Feature
-❓ Questions: GitHub Discussions
+
+🐛 Bug Reports: [Create an Issue](../../issues/new?template=bug_report.md)
+
+
+💡 Feature Requests: [Request Feature](../../issues/new?template=feature_request.md)
+
+
+❓ Questions: [GitHub Discussions](../../discussions)
 
 📧 Direct Contact: Contact@Bringupp.com
 
 ### 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ###  ⭐ Show Your Support
 If this project helped you, please consider:
