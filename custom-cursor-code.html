@@ -1,0 +1,142 @@
+<!-- Custom Cursor Follower - Fast & Aesthetic -->
+<style>
+/* Keep normal cursor visible */
+body, html, * {
+    cursor: auto !important;
+}
+
+/* Main cursor container */
+.cursor-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.cursor-container.active {
+    opacity: 1;
+}
+
+/* Inner black dot */
+.cursor-dot {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #000;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.15s ease;
+}
+
+/* Outer light circle - much closer to dot */
+.cursor-circle {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.25s ease;
+}
+
+/* Hover effects */
+.cursor-container.hover .cursor-dot {
+    width: 3px;
+    height: 3px;
+    background: #000;
+}
+
+.cursor-container.hover .cursor-circle {
+    width: 24px;
+    height: 24px;
+    border: 1.5px solid rgba(0, 0, 0, 0.6);
+}
+
+/* Click effect */
+.cursor-container.click .cursor-dot {
+    width: 5px;
+    height: 5px;
+}
+
+.cursor-container.click .cursor-circle {
+    width: 10px;
+    height: 10px;
+    border: 2px solid rgba(0, 0, 0, 0.8);
+}
+
+/* Hide on mobile */
+@media (max-width: 768px) {
+    .cursor-container { display: none; }
+}
+</style>
+
+<!-- Cursor HTML -->
+<div class="cursor-container">
+    <div class="cursor-circle"></div>
+    <div class="cursor-dot"></div>
+</div>
+
+<!-- Cursor JavaScript -->
+<script>
+window.addEventListener('load', function() {
+    const container = document.querySelector('.cursor-container');
+    let mouseX = 0, mouseY = 0;
+    let containerX = 0, containerY = 0;
+
+    // Update mouse position
+    document.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        container.classList.add('active');
+    });
+
+    // Faster animation - increased speed from 0.1 to 0.3
+    function animate() {
+        containerX += (mouseX - containerX) * 0.3; // Much faster following
+        containerY += (mouseY - containerY) * 0.3; // Much faster following
+        
+        container.style.left = containerX + 'px';
+        container.style.top = containerY + 'px';
+        
+        requestAnimationFrame(animate);
+    }
+    animate();
+
+    // Hover effect on clickable elements
+    const clickables = 'a, button, input, select, textarea, [onclick], .btn, .wp-block-button';
+    
+    document.addEventListener('mouseover', function(e) {
+        if (e.target.matches(clickables) || e.target.closest(clickables)) {
+            container.classList.add('hover');
+        }
+    });
+    
+    document.addEventListener('mouseout', function(e) {
+        if (e.target.matches(clickables) || e.target.closest(clickables)) {
+            container.classList.remove('hover');
+        }
+    });
+
+    // Click effect
+    document.addEventListener('mousedown', function() {
+        container.classList.add('click');
+    });
+    
+    document.addEventListener('mouseup', function() {
+        container.classList.remove('click');
+    });
+
+    // Hide when mouse leaves window
+    document.addEventListener('mouseleave', function() {
+        container.classList.remove('active');
+    });
+
+    // Show when mouse enters window
+    document.addEventListener('mouseenter', function() {
+        container.classList.add('active');
+    });
+});
+</script>
