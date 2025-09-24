@@ -10,7 +10,7 @@
 </div>
 
 ## 🌟 Live Demo
-[**👆 Click here to see it in action**](https://tipsoont.blog) *(Replace with your demo URL)*
+[**👆 Click here to see it in action**](https://tipsoont.blog) *(TIPSOONT -A Blog For Web Designers and Developers)*
 
 ## ✨ Features
 
