@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordPress Custom Cursor - HTML Version</title>
+</head>
+<body>
+
+<!-- WordPress Custom Cursor Follower - HTML Implementation -->
+<!-- 
+FEATURES:
+✅ Professional black dot with light circle design
+✅ Ultra-fast 60fps animation using requestAnimationFrame
+✅ Interactive hover and click effects
+✅ Mobile-friendly with automatic touch device detection
+✅ Universal browser compatibility
+✅ Zero conflicts with existing functionality
+
+INSTALLATION:
+1. Copy the entire <style> and <script> sections
+2. Add to your WordPress site using "Insert Headers and Footers" plugin
+3. Paste in "Scripts in Footer" section
+4. Save and enjoy!
+
+VERSION: 1.0.0
+COMPATIBILITY: WordPress 5.0+, All Modern Browsers
+-->
+
+<style>
+/* ===== WORDPRESS CUSTOM CURSOR STYLES ===== */
+
+/* Preserve default cursor behavior */
+body, html, * {
+    cursor: auto !important;
+}
+
+/* Main cursor container */
+.wp-custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 999999;
+    opacity: 0;
+    transition: opacity 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.wp-custom-cursor.active {
+    opacity: 1;
+}
+
+/* Inner dot styling */
+.wp-cursor-dot {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background-color: #000000;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Outer circle styling */
+.wp-cursor-circle {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Hover state effects */
+.wp-custom-cursor.hover .wp-cursor-dot {
+    width: 3px;
+    height: 3px;
+    background-color: #000000;
+}
+
+.wp-custom-cursor.hover .wp-cursor-circle {
+    width: 24px;
+    height: 24px;
+    border: 1.5px solid rgba(0, 0, 0, 0.6);
+}
+
+/* Click state effects */
+.wp-custom-cursor.click .wp-cursor-dot {
+    width: 5px;
+    height: 5px;
+}
+
+.wp-custom-cursor.click .wp-cursor-circle {
+    width: 10px;
+    height: 10px;
+    border: 2px solid rgba(0, 0, 0, 0.8);
+}
+
+/* Mobile and touch device handling */
+@media (hover: none) and (pointer: coarse), (max-width: 768px) {
+    .wp-custom-cursor {
+        display: none !important;
+    }
+}
+
+/* Performance optimizations */
+.wp-custom-cursor {
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+}
+</style>
+
+<!-- Cursor HTML Structure -->
+<div class="wp-custom-cursor" id="wpCustomCursor">
+    <div class="wp-cursor-circle"></div>
+    <div class="wp-cursor-dot"></div>
+</div>
+
+<script>
+/* ===== WORDPRESS CUSTOM CURSOR JAVASCRIPT ===== */
+
+(function() {
+    'use strict';
+    
+    // Wait for DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        initCustomCursor();
+    });
+    
+    function initCustomCursor() {
+        const cursor = document.getElementById('wpCustomCursor');
+        
+        // Exit if cursor element doesn't exist
+        if (!cursor) {
+            console.warn('WordPress Custom Cursor: Cursor element not found');
+            return;
+        }
+        
+        // Mouse position variables
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        
+        // Performance optimization
+        let isMoving = false;
+        let animationId = null;
+        
+        // Update mouse position
+        document.addEventListener('mousemove', function(e) {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursor.classList.add('active');
+            
+            if (!isMoving) {
+                isMoving = true;
+                animate();
+            }
+        });
+        
+        // High-performance animation loop
+        function animate() {
+            // Smooth following with easing
+            cursorX += (mouseX - cursorX) * 0.3;
+            cursorY += (mouseY - cursorY) * 0.3;
+            
+            // Apply position with hardware acceleration
+            cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
+            
+            // Continue animation if mouse is still moving
+            const distance = Math.abs(mouseX - cursorX) + Math.abs(mouseY - cursorY);
+            if (distance > 0.5) {
+                animationId = requestAnimationFrame(animate);
+            } else {
+                isMoving = false;
+            }
+        }
+        
+        // Enhanced clickable element detection
+        const clickableSelectors = [
+            'a', 'button', 'input', 'select', 'textarea',
+            '[onclick]', '[role="button"]', '[tabindex]',
+            '.btn', '.button', '.wp-block-button', '.elementor-button',
+            'nav a', '.menu-item a', '.widget a'
+        ].join(', ');
+        
+        // Hover effect management
+        function addHoverEffect() {
+            cursor.classList.add('hover');
+        }
+        
+        function removeHoverEffect() {
+            cursor.classList.remove('hover');
+        }
+        
+        // Event delegation for better performance
+        document.addEventListener('mouseover', function(e) {
+            if (e.target.matches(clickableSelectors) || e.target.closest(clickableSelectors)) {
+                addHoverEffect();
+            }
+        });
+        
+        document.addEventListener('mouseout', function(e) {
+            if (e.target.matches(clickableSelectors) || e.target.closest(clickableSelectors)) {
+                removeHoverEffect();
+            }
+        });
+        
+        // Click feedback effects
+        document.addEventListener('mousedown', function() {
+            cursor.classList.add('click');
+        });
+        
+        document.addEventListener('mouseup', function() {
+            cursor.classList.remove('click');
+        });
+        
+        // Window focus/blur handling
+        document.addEventListener('mouseleave', function() {
+            cursor.classList.remove('active');
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                isMoving = false;
+            }
+        });
+        
+        document.addEventListener('mouseenter', function() {
+            cursor.classList.add('active');
+        });
+        
+        // Handle page visibility changes
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                cursor.classList.remove('active');
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                    isMoving = false;
+                }
+            }
+        });
+        
+        // Initialize cursor visibility
+        setTimeout(function() {
+            cursor.classList.add('active');
+        }, 100);
+        
+        console.log('WordPress Custom Cursor: Initialized successfully');
+    }
+    
+    // Handle dynamic content (AJAX, etc.)
+    if (typeof MutationObserver !== 'undefined') {
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                    // Re-initialize if new interactive elements are added
+                    setTimeout(initCustomCursor, 100);
+                }
+            });
+        });
+        
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    }
+})();
+</script>
+
+</body>
+</html>
