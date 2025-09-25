@@ -111,7 +111,7 @@ If this project helped you, please consider:
 📊 GitHub Stats
 Show Image
 
-![Github_stats](https://github-readme-stats.vercel.app/api?username=yourusername&show_icons=true&theme=radical)
+![Github_stats](https://github-readme-stats.vercel.app/api?username=Ziakamal&show_icons=true&theme=radical)
 
 <div align="center">
   <p><strong>Made with ❤️ for the WordPress Community</strong></p>
